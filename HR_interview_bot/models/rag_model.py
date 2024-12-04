@@ -62,13 +62,20 @@ def extract_skills_using_ai(resume_text):
     Returns:
     - str: Extracted skills as a string.
     """
-    prompt = f"""
-    You are a highly intelligent resume parser. Your task is to extract the skills section from the following resume text. 
-    Return only the text below the 'Skills' section. If the 'Skills' section is not found, return an empty string.
+     prompt = f"""
+You are a highly intelligent resume parser. Your task is to extract key sections such as Skills, Education, Work Experience, Certifications, and Projects from the following resume text. 
+Return the output in a structured format. If a section is missing, return an empty value for that section.
 
-    Resume Text:
-    {resume_text}
-    """
+Resume Text:
+{resume_text}
+
+Output in the following format:
+Skills: ...
+Education: ...
+Work Experience: ...
+Certifications: ...
+Projects: ...
+"""
     inputs = tokenizer(prompt, return_tensors="pt")
     outputs = model.generate(**inputs, max_new_tokens=600)
     response = tokenizer.decode(outputs[0], skip_special_tokens=True)
